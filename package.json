@@ -12,6 +12,7 @@
     "@ai-sdk/huggingface": "^1.0.7",
     "@ai-sdk/openai": "^3.0.2",
     "@ai-sdk/react": "^3.0.5",
+    "@ai-sdk/xai": "^3.0.67",
     "@cedrugs/pdf-parse": "^1.0.0",
     "@clerk/nextjs": "^6.36.5",
     "@hookform/resolvers": "^5.2.2",

@@ -21,7 +21,7 @@ export const config = {
 
 import {clerkMiddleware,createRouteMatcher} from "@clerk/nextjs/server";
 import {NextResponse} from "next/server";
-const isPublicROute=createRouteMatcher(["/","/sign-in(.*","/sign-up(.*"]);
+const isPublicROute=createRouteMatcher(["/","/sign-in(.*)","/sign-up(.*)"]);
 const isAdminRoute=createRouteMatcher(["upload"]);
 
 export default clerkMiddleware(async(auth,req)=>{
