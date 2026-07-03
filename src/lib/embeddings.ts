@@ -1,19 +1,34 @@
-// src/lib/embeddings.ts
-import { HfInference } from "@huggingface/inference";
+import { pipeline } from "@xenova/transformers";
 
-const hf = new HfInference(process.env.HUGGINGFACE_API_KEY);
+// Load embedding pipeline once
+const extractor = await pipeline(
+  "feature-extraction",
+  "Xenova/all-MiniLM-L6-v2"
+);
 
 export async function generateEmbeddings(texts: string[]) {
   try {
-    const inputs = texts.map((text) => text.replace(/\n/g, " "));
 
-    const output = await hf.featureExtraction({
-      // FIXED: Use a model that supports 'feature-extraction'
-      model: "BAAI/bge-small-en-v1.5", 
-      inputs: inputs,
-    });
+    const embeddings: number[][] = [];
 
-    return output as number[][];
+    for (const text of texts) {
+
+      const cleaned = text
+        .replace(/\n/g, " ")
+        .trim();
+
+      if (!cleaned) continue;
+
+      const output = await extractor(cleaned, {
+        pooling: "mean",
+        normalize: true,
+      });
+
+      embeddings.push(Array.from(output.data));
+    }
+
+    return embeddings;
+
   } catch (error) {
     console.error("Embedding Error:", error);
     throw new Error("Failed to generate embeddings");
